@@ -16,6 +16,7 @@ var cache = require('gulp-cache');
 var size = require('gulp-size');
 var livereload = require('gulp-livereload');
 var lr = require('tiny-lr');
+var react = require('gulp-react');
 var server = lr();
 
 // use express as a server, alternatively, i can use vagrant
@@ -52,6 +53,7 @@ gulp.task('styles', function () {
         .pipe(autoprefixer('last 1 version'))
         .pipe(csso())
         .pipe(size())
+        .pipe(gulp.dest('app/styles'))
         .pipe(gulp.dest('dist/styles'))
         .pipe(livereload(server));
 });
@@ -104,13 +106,19 @@ gulp.task('images', function () {
         .pipe(gulp.dest('dist/images'));
 });
 
+gulp.task('react', function() {
+     return gulp.src('app/scripts/app.js')
+        .pipe(react())
+        .pipe(gulp.dest('dist/scripts'));
+});
+
 // Clean
 gulp.task('clean', function () {
     return gulp.src(['dist/styles', 'dist/scripts', 'dist/images'], {read: false}).pipe(clean());
 });
 
 // Build
-gulp.task('build', ['html', 'styles', 'scripts', 'bower', 'images', 'zepto']);
+gulp.task('build', ['html', 'styles', 'scripts', 'bower', 'images', 'zepto', 'react']);
 
 // Default task
 gulp.task('default', ['clean'], function () {
@@ -119,13 +127,16 @@ gulp.task('default', ['clean'], function () {
 
 // Watch
 gulp.task('watch', function () {
+
+    gulp.start('build');
+    
     // Listen on port 35729
     server.listen(35729, function (err) {
         if (err) {
             return console.error(err);
         };
         
-        gulp.run('zepto');
+        gulp.run('zepto', 'bower');
 
         gulp.watch('app/data/*', ['data']);
 

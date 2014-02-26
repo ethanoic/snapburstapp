@@ -18,7 +18,8 @@
     "gulp-ruby-sass": "~0.3.0",
     "gulp-size": "~0.1.2",
     "express": "~3.4.8",
-    "path": "~0.4.9"
+    "path": "~0.4.9",
+    "gulp-react": "~0.1.2"
   },
   "engines": {
     "node": ">=0.10.0"

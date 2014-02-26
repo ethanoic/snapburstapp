@@ -2,6 +2,9 @@ $icon-font-path: "/bower_components/bootstrap-sass/vendor/assets/fonts/bootstrap
 
 @import 'bootstrap-sass/vendor/assets/stylesheets/bootstrap';
 
+* {
+}
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -52,27 +55,42 @@ html {
     margin: 30px 0;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-    min-height:380px; 
-    text-align: center;
-    border-bottom: 1px solid #e5e5e5;
-    .btn {
-        font-size: 21px;
-        padding: 14px 24px;
-    }
-}
-
 .action-view {
     padding:10px;
     background:#f1f2f3;
-    min-height:380px; 
+    height:100%;
     margin-bottom:20px;
-    canvas {
-        display:none;
-        min-height:380px;
-        width:100%;
+
+    .btn-round {
+        text-align: center;
+        width:100px;
+        height:100px;
+        border-radius: 50px;
+        background-color:#000000;
+        color:#f1f2f3;
+        margin-left:auto;
+        margin-right: auto;
+        display: block;
     }
+
+    canvas {
+        height:100%;
+        width:100%;
+    }   
+
+    #cameraview {
+        video {
+            width:100%;
+            min-height:240px;
+        }
+        canvas {
+            display: none;
+        }
+        img {
+            display: none;
+        }
+    }
+
     #loading {
         display:block;
     }
@@ -82,17 +100,101 @@ html {
         width:100%;
         overflow:auto;
     }
-    .row {
+    #selectphotosview {
+        width:100%;
+        height:100%;
+
+        .photo-roll {
+            margin-top: 40px;
+
+            .photo-item {
+
+                .thumbnail {
+                    .img-selector {
+                        padding-bottom: 5px;
+                        padding-top: 3px;
+                        color:#f1f2f3;
+                        clear:both;
+                    }
+                    .img-selector.selected {
+                        color:#428bca;
+                        clear:both;
+                    }   
+                    img {
+                        clear:both;
+                    }
+                }
+            }
+        }
     }
 }
 
-.controls {
-    position:fixed;
-    bottom:10px;
+.float-menu-top {
+    position: fixed;
+    top:0px;
     left:0px;
     width:100%;
-    padding-left:5%;
-    padding-right:5%;
+    padding: 2px;
+
+    button.btn-reset,
+    button.btn-previewflip {
+        margin-top: 3px;
+        margin-bottom: 2px;
+        margin-right: 5px;
+        span {
+            font-size: 18px;
+            top:3px;
+        }
+    }
+
+    button.btn-reset {
+        margin-left: 5px;
+        margin-right: 2px;
+    }
+
+    button.btn-previewflip {
+        margin-right: 5px;
+        label {
+            font-size: 16px;
+            padding-right: 10px;
+            padding-left: 10px;
+            line-height: 0.25em;
+            color:#666666;
+        }
+    }
+}
+
+.selected-photos {
+
+    ul {
+        list-style: none;
+        padding:5px;
+        margin:0px;
+        float:left;
+        width:61%;
+        height:40px;
+        overflow: hidden;
+
+        li {
+            padding:2px;
+            margin:2px;
+            width:30px;
+            height:30px;
+            overflow: hidden;
+            float:left;
+
+            img {
+                width:100%;
+            }
+        }
+    }
+}
+
+.hide {
+    display: none;
+}
+.no-hide {
+    display: block;
 }
 
 #groupshare {
@@ -108,11 +210,28 @@ html {
 }
 
 /* custom styles built on top of bootstrap */
+.glyphicon {
+    font-size:24px;
+}
 .glyphicon-lg {
     font-size:200%; 
     line-height:150%;
 }
 
+.nav-bottom-fixed {
+    width:100%;
+    position: fixed;
+    z-index: 9999;
+    bottom:0px;
+    left:0px;
+
+    button.btn {
+        border-radius: 0px;
+    }
+    button.btn-primary {
+        border-color:none;
+    }
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .container {
@@ -136,4 +255,10 @@ html {
     .jumbotron {
         border-bottom: 0;
     }
+
+}
+
+@media screen and (min-width: 1024px) {
+
+       
 }

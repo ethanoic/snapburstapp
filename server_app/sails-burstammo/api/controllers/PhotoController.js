@@ -16,10 +16,45 @@
  */
 
 var PhotoController = {
-    
-	find : function(req, res) {
-		// read data folder and return image objects
+	dataPath : './assets/data',
+	find: function(req, res) {
+		var fs = require('fs');
+		var photos = new Array();
 
+		fs.readdir(PhotoController.dataPath, function(err, files) {
+
+			for(var i=0; i<files.length; i++) {
+				if (files[i].indexOf('.jpg') > 0 || files[i].indexOf('.png') > 0 ) {
+					var photoFile = {
+						src :  req.protocol + '://' + req.get('host') + '/data/' + files[i],
+						dateCreated: new Date()
+					};
+
+					fs.stat(PhotoController.dataPath + '/' + files[i], function(err, stats) {
+						photoFile.dateCreated = stats.ctime;
+					});
+					
+					photos.push(photoFile);	
+				}
+			}
+			res.json(photos);
+		});
+	},
+	create: function(req, res) {
+		var params = req.params.all();
+
+		// write to file
+		var moment = require('moment');
+		var timestamp = moment().format('MMMM_DD_YYYY_HHmmSSS');
+		var imgdata = req.param('data');
+	
+		var base64Data = imgdata.replace(/^data:image\/png;base64,/,'');
+
+		require("fs").writeFile(PhotoController.dataPath + '/' + timestamp + '.png', base64Data, 'base64', function(err) {
+		  console.log(err);
+		});
+		
+		res.json(true);
 	}
 	
 };
